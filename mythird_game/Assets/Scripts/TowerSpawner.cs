@@ -25,8 +25,10 @@ public class TowerSpawner : MonoBehaviour
 
         tile.IsBuildTower = true;
         playerGold.CurrentGold -= towerBuildGold;
+
+        Vector3 position = tileTransform.position + Vector3.back;
         
-        GameObject clone = Instantiate(towerPrefab, tileTransform.position, Quaternion.identity);
+        GameObject clone = Instantiate(towerPrefab, position, Quaternion.identity);
         clone.GetComponent<TowerWeapon>().Setup(enemySpawner);
     }
     // Start is called before the first frame update
