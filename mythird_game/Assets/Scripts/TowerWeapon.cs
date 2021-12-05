@@ -15,6 +15,7 @@ public class TowerWeapon : MonoBehaviour
     [SerializeField] private float attackRate = 0.5f;
 
     [SerializeField] private float attackRange = 2.0f;
+    [SerializeField] private int attackDamage = 1;
 
     private WeaponState weaponState = WeaponState.SearchTarget;
 
@@ -111,6 +112,6 @@ public class TowerWeapon : MonoBehaviour
     private void SpawnProjectile()
     {
         GameObject clone = Instantiate(projecttilePrefab, spawnPoint.position, quaternion.identity);
-        clone.GetComponent<Projectile>().Setup(attackTarget);
+        clone.GetComponent<Projectile>().Setup(attackTarget, attackDamage);
     }
 }

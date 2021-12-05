@@ -12,12 +12,14 @@ namespace DefaultNamespace
         private Enemy enemy;
         private SpriteRenderer spriteRenderer;
 
+        public float MaxHP => maxHP;
+        public float CurrentHP => currentHP;
+
         private void Awake()
         {
             currentHP = maxHP;
             enemy = GetComponent<Enemy>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            
         }
 
         public void TakeDamage(float damage)
@@ -31,7 +33,7 @@ namespace DefaultNamespace
             if (currentHP <= 0)
             {
                 isDie = true;
-                enemy.OnDie();
+                enemy.OnDie(EnemyDestoryType.kill);
             }
         }
 

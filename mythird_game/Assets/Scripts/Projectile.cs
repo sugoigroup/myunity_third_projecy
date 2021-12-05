@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -9,16 +6,13 @@ public class Projectile : MonoBehaviour
     private Movement2D movement2D;
 
     private Transform target;
+    private int damage;
 
-    public void Setup(Transform target)
+    public void Setup(Transform target, int damage)
     {
         movement2D = GetComponent<Movement2D>();
         this.target = target;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        this.damage = damage;
     }
 
     // Update is called once per frame
@@ -33,8 +27,6 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -42,7 +34,8 @@ public class Projectile : MonoBehaviour
         if (!collision.CompareTag("Enemy")) return;
         if (collision.transform != target) return;
 
-        collision.GetComponent<Enemy>().OnDie();
+        // collision.GetComponent<Enemy>().OnDie();
+        collision.GetComponent<EnemyHP>().TakeDamage(damage);
         Destroy(gameObject);
     }
 }

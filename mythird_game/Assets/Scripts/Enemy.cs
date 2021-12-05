@@ -3,15 +3,22 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
+    public enum EnemyDestoryType
+    {
+        kill = 0,
+        Arrive
+    }
+
     public class Enemy : MonoBehaviour
     {
+        [SerializeField] private int gold = 10;
         private int wayPointCount;
         private Transform[] wayPoints;
         private int currentIndex = 0;
         private Movement2D movement2D;
         private EnemySpawner enemySpawner;
 
-        public void Setup(EnemySpawner enemySpawner , Transform[] wayPoints)
+        public void Setup(EnemySpawner enemySpawner, Transform[] wayPoints)
         {
             movement2D = GetComponent<Movement2D>();
             this.enemySpawner = enemySpawner;
@@ -31,7 +38,7 @@ namespace DefaultNamespace
 
             while (true)
             {
-               // transform.Rotate(Vector3.forward * 10);
+                // transform.Rotate(Vector3.forward * 10);
                 if (Vector3.Distance(transform.position, wayPoints[currentIndex].position) <
                     0.02f * movement2D.MoveSpeed)
                 {
@@ -53,16 +60,15 @@ namespace DefaultNamespace
             }
             else
             {
+                gold = 0;
                 //Destroy(gameObject);
-                OnDie();
+                OnDie(EnemyDestoryType.Arrive);
             }
         }
 
-        public void OnDie()
+        public void OnDie(EnemyDestoryType type)
         {
-            enemySpawner.DestroyEnemy(this);
+            enemySpawner.DestroyEnemy(type, this, gold);
         }
     }
-    
-    
 }
