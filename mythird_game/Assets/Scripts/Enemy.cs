@@ -58,7 +58,7 @@ namespace DefaultNamespace
             }
         }
 
-        private void OnDie()
+        public void OnDie()
         {
             enemySpawner.DestroyEnemy(this);
         }

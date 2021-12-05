@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 182606004783932528}
   - component: {fileID: 8021134361696353865}
   - component: {fileID: 261614349400066237}
+  - component: {fileID: -1565880793039462413}
+  - component: {fileID: 2191614074472030308}
   m_Layer: 0
   m_Name: Enemy01
   m_TagString: Enemy
@@ -110,3 +112,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   moveDirection: {x: 0, y: 0, z: 0}
+--- !u!58 &-1565880793039462413
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120603416470060702}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!114 &2191614074472030308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120603416470060702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7547e59405c44bca3992f193f01232c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 5

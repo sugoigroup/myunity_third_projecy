@@ -110,6 +110,7 @@ public class TowerWeapon : MonoBehaviour
 
     private void SpawnProjectile()
     {
-        Instantiate(projecttilePrefab, spawnPoint.position, quaternion.identity);
+        GameObject clone = Instantiate(projecttilePrefab, spawnPoint.position, quaternion.identity);
+        clone.GetComponent<Projectile>().Setup(attackTarget);
     }
 }

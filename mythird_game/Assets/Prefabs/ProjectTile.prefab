@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8412556234890112690}
   - component: {fileID: 5506137277999302310}
   - component: {fileID: 8369160862656963006}
+  - component: {fileID: -17557587201334476}
+  - component: {fileID: -6266178391542349214}
   m_Layer: 0
   m_Name: ProjectTile
   m_TagString: Untagged
@@ -97,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd774b01e0c7474193d6c3019cdc9d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  moveSpeed: 5
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!58 &5506137277999302310
 CircleCollider2D:
@@ -136,3 +138,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-17557587201334476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158226936966955613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4138513ee52da4a1c9b85797a6b164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6266178391542349214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158226936966955613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd774b01e0c7474193d6c3019cdc9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  moveDirection: {x: 0, y: 0, z: 0}
