@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class TowerDataViewer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textRange;
     [SerializeField] private TextMeshProUGUI textLevel;
     [SerializeField] private TowerAttackRange towerAttackRange;
+    [SerializeField] private Button buttonUpgrade;
+    [SerializeField] private SystemTextViewr systemTextViewr;
 
     private TowerWeapon currentTower;
     private void Awake()
@@ -33,10 +36,13 @@ public class TowerDataViewer : MonoBehaviour
 
     private void UpdateTowerDate()
     {
+        imageTower.sprite = currentTower.TowerSprite;
         textDamage.text = "Damage:" + currentTower.Damage;
         textRate.text = "Rate:" + currentTower.Rate;
         textRange.text = "Range:" + currentTower.Range;
         textLevel.text = "Level:" + currentTower.Level;
+
+        buttonUpgrade.interactable = currentTower.Level < currentTower.MaxLevel ? true : false;
     }
 
     // Update is called once per frame
@@ -47,5 +53,26 @@ public class TowerDataViewer : MonoBehaviour
             OffPanel();
         }
         
+    }
+
+    public void OnClickEventTowerUpgrade()
+    {
+        bool isSuccess = currentTower.Upgrade();
+
+        if (isSuccess)
+        {
+            UpdateTowerDate();
+            towerAttackRange.OnAttackRange(currentTower.transform.position, currentTower.Range);
+        }
+        else
+        {
+            systemTextViewr.PrintText(SystemType.Money);
+        }
+    }
+
+    public void OnClickEventTowerSell()
+    {
+        currentTower.Sell();
+        OffPanel();
     }
 }
