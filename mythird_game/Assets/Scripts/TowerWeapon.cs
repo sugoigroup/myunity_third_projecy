@@ -6,7 +6,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.XR;
 
-public enum WeaponType { Cannon = 0,Laser, }
+public enum WeaponType { Cannon = 0,Laser,Slow }
 public enum WeaponState { SearchTarget = 0, TryAttackCannon, TryAttackLaser,}
 public class TowerWeapon : MonoBehaviour
 {
@@ -43,14 +43,20 @@ public class TowerWeapon : MonoBehaviour
     public float Range => towerTemplate.weapon[level].range;
     public int Level => level + 1;
     public int MaxLevel => towerTemplate.weapon.Length;
+    public float Slow => towerTemplate.weapon[level].slow;
+    public WeaponType WeaponType => weaponType;
 
     public void Setup(EnemySpawner enemySpawner, PlayerGold playerGold, Tile ownerTile)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         this.enemySpawner = enemySpawner;
-        ChangeState(WeaponState.SearchTarget);
         this.playerGold = playerGold;
         this.ownerTile = ownerTile;
+        if (weaponType == WeaponType.Cannon || weaponType == WeaponType.Laser)
+        {
+            
+            ChangeState(WeaponState.SearchTarget);
+        }
     }
 
     private void ChangeState(WeaponState newState)
