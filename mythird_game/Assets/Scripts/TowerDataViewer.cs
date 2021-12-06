@@ -10,6 +10,8 @@ public class TowerDataViewer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textRate;
     [SerializeField] private TextMeshProUGUI textRange;
     [SerializeField] private TextMeshProUGUI textLevel;
+    [SerializeField] private TextMeshProUGUI textUpgradeCost;
+    [SerializeField] private TextMeshProUGUI textSellCost;
     [SerializeField] private TowerAttackRange towerAttackRange;
     [SerializeField] private Button buttonUpgrade;
     [SerializeField] private SystemTextViewr systemTextViewr;
@@ -39,11 +41,18 @@ public class TowerDataViewer : MonoBehaviour
 
         if (currentTower.WeaponType == WeaponType.Cannon || currentTower.WeaponType == WeaponType.Laser)
         {
-            textDamage.text = "Damage:" + currentTower.Damage;
+            textDamage.text = "Damage:" + currentTower.Damage + "+" + "<color=red>" + currentTower.AddDamage.ToString("F1") + "</color>";
         }
         else
         {
-            textDamage.text = "Slow:" + currentTower.Slow * 100 + "%";
+            if (currentTower.WeaponType == WeaponType.Slow)
+            {
+                textDamage.text = "Slow:" + currentTower.Slow * 100 + "%";
+            } else if (currentTower.WeaponType == WeaponType.Buff)
+            {
+                textDamage.text = "Buff:" + currentTower.Buff * 100 + "%";
+            }
+            
         }
         
         
@@ -51,6 +60,8 @@ public class TowerDataViewer : MonoBehaviour
         textRate.text = "Rate:" + currentTower.Rate;
         textRange.text = "Range:" + currentTower.Range;
         textLevel.text = "Level:" + currentTower.Level;
+        textUpgradeCost.text = currentTower.UpgradeCost.ToString();
+        textSellCost.text = currentTower.SellCost.ToString();
 
         buttonUpgrade.interactable = currentTower.Level < currentTower.MaxLevel ? true : false;
     }

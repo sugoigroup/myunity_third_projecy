@@ -6,7 +6,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.XR;
 
-public enum WeaponType { Cannon = 0,Laser,Slow }
+public enum WeaponType { Cannon = 0,Laser,Slow,Buff, }
 public enum WeaponState { SearchTarget = 0, TryAttackCannon, TryAttackLaser,}
 public class TowerWeapon : MonoBehaviour
 {
@@ -34,8 +34,23 @@ public class TowerWeapon : MonoBehaviour
     private int level = 0;
     private SpriteRenderer spriteRenderer;
     private EnemySpawner enemySpawner;
+    private TowerSpawner towerSpawner;
     private PlayerGold playerGold;
     private Tile ownerTile;
+
+    private float addedDamage;
+    private int buffLevel;
+
+    public float AddDamage
+    {
+        set => addedDamage = Mathf.Max(0, value);
+        get => addedDamage;
+    }
+    public int BuffLevel
+    {
+        set => buffLevel = Mathf.Max(0, value);
+        get => buffLevel;
+    }
 
     public Sprite TowerSprite => towerTemplate.weapon[level].sprite;
     public float Damage => towerTemplate.weapon[level].damage;
@@ -44,11 +59,15 @@ public class TowerWeapon : MonoBehaviour
     public int Level => level + 1;
     public int MaxLevel => towerTemplate.weapon.Length;
     public float Slow => towerTemplate.weapon[level].slow;
+    public float Buff => towerTemplate.weapon[level].buff;
     public WeaponType WeaponType => weaponType;
+    public int UpgradeCost => Level < MaxLevel ? towerTemplate.weapon[level + 1].cost : 0;
+    public int SellCost => towerTemplate.weapon[level].sell;
 
-    public void Setup(EnemySpawner enemySpawner, PlayerGold playerGold, Tile ownerTile)
+    public void Setup(TowerSpawner towerSpawner ,EnemySpawner enemySpawner, PlayerGold playerGold, Tile ownerTile)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        this.towerSpawner = towerSpawner;
         this.enemySpawner = enemySpawner;
         this.playerGold = playerGold;
         this.ownerTile = ownerTile;
@@ -186,7 +205,9 @@ public class TowerWeapon : MonoBehaviour
                 lineRenderer.SetPosition(0, spawnPoint.position);
                 lineRenderer.SetPosition(1,new Vector3(hit[i].point.x, hit[i].point.y, 0) + Vector3.back);
                 hitEffect.position = hit[i].point;
-                attackTarget.GetComponent<EnemyHP>().TakeDamage(towerTemplate.weapon[level].damage * Time.deltaTime);
+
+                float damage = towerTemplate.weapon[level].damage + AddDamage;
+                attackTarget.GetComponent<EnemyHP>().TakeDamage(damage * Time.deltaTime);
             }
         }
     }
@@ -194,7 +215,8 @@ public class TowerWeapon : MonoBehaviour
     private void SpawnProjectile()
     {
         GameObject clone = Instantiate(projecttilePrefab, spawnPoint.position, quaternion.identity);
-        clone.GetComponent<Projectile>().Setup(attackTarget, towerTemplate.weapon[level].damage);
+        float damage = towerTemplate.weapon[level].damage + AddDamage;
+        clone.GetComponent<Projectile>().Setup(attackTarget, damage);
     }
 
     public bool Upgrade()
@@ -213,6 +235,8 @@ public class TowerWeapon : MonoBehaviour
             lineRenderer.startWidth = 0.05f + level * 0.05f;
             lineRenderer.endWidth = 0.05f;
         }
+        
+        towerSpawner.OnBuffAllBuffTowers();
         
         return true;
     }
@@ -256,6 +280,28 @@ public class TowerWeapon : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void OnBuffAroundTower()
+    {
+        GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
+        for (int i = 0; i < towers.Length; ++i)
+        {
+            TowerWeapon weapon = towers[i].GetComponent<TowerWeapon>();
+            if (weapon.buffLevel > Level)
+            {
+                continue;
+            }
+
+            if (Vector3.Distance(weapon.transform.position, transform.position) <= towerTemplate.weapon[level].range)
+            {
+                if (weapon.WeaponType == WeaponType.Cannon || weapon.WeaponType == WeaponType.Laser)
+                {
+                    weapon.AddDamage = weapon.Damage * (towerTemplate.weapon[level].buff);
+                    weapon.BuffLevel = Level;
+                }
+            }
+        }
     }
     
 }
