@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 261614349400066237}
   - component: {fileID: -1565880793039462413}
   - component: {fileID: 2191614074472030308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy01
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ec3dc45b327564e83a2b4f48c5f96efe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89ecb9c9e23354d58b44bd29de9f698a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

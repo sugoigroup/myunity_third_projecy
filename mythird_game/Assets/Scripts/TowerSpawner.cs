@@ -6,30 +6,33 @@ using UnityEngine;
 
 public class TowerSpawner : MonoBehaviour
 {
-    [SerializeField] private TowerTemplate towerTemplate;
+    [SerializeField] private TowerTemplate[] towerTemplate;
     // [SerializeField] private GameObject towerPrefab;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private SystemTextViewr systemTextViewr;
+    [SerializeField] private PlayerGold playerGold;
     private bool isOnTowerButton = false;
     private GameObject followTowerClone = null;
+    private int towerType;
 
     // [SerializeField] private int towerBuildGold = 50;
-    [SerializeField] private PlayerGold playerGold;
 
-    public void ReadyToSpawnTower()
+    public void ReadyToSpawnTower(int type)
     {
+        towerType = type;
+        
         if (isOnTowerButton == true)
         {
             return; 
         }
-        if (towerTemplate.weapon[0].cost > playerGold.CurrentGold)
+        if (towerTemplate[towerType].weapon[0].cost > playerGold.CurrentGold)
         {
             systemTextViewr.PrintText(SystemType.Money);
             return;
         }
 
         isOnTowerButton = true;
-        followTowerClone = Instantiate(towerTemplate.followTowerPrefab);
+        followTowerClone = Instantiate(towerTemplate[towerType].followTowerPrefab);
 
         StartCoroutine("OnTowerCancelSystem");
     }
@@ -56,11 +59,11 @@ public class TowerSpawner : MonoBehaviour
         tile.IsBuildTower = true;
         isOnTowerButton = false;
         
-        playerGold.CurrentGold -= towerTemplate.weapon[0].cost;
+        playerGold.CurrentGold -= towerTemplate[towerType].weapon[0].cost;
 
         Vector3 position = tileTransform.position + Vector3.back;
         
-        GameObject clone = Instantiate(towerTemplate.towerPrefab, position, Quaternion.identity);
+        GameObject clone = Instantiate(towerTemplate[towerType].towerPrefab, position, Quaternion.identity);
         clone.GetComponent<TowerWeapon>().Setup(enemySpawner, playerGold, tile);
         
         Destroy(followTowerClone);
